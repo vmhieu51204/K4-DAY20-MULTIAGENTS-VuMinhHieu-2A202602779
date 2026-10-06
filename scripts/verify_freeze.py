@@ -23,7 +23,7 @@ SOURCES = {"skills-auto": ROOT / "skills" / "auto"}
 
 
 def git(*args) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
 
 
 def main() -> int:
