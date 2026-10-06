@@ -6,20 +6,20 @@
 
 | Họ tên | Mã sinh viên | Phần đóng góp |
 |---|---|---|
-| | | |
+| Vũ Minh Hiếu | 2A202602779 | 100% |
 
-- Nhà cung cấp và mô hình (`LAB_MODEL`, không ghi khóa API), nhiệt độ (`LAB_TEMPERATURE`), `recursion_limit`:
-- Phiên bản Deep Agents (`pip show deepagents`), hệ điều hành, chạy trực tiếp hay trong Docker:
-- Số lần chạy tác vụ đã dùng / ngân sách:
+- Nhà cung cấp và mô hình (`LAB_MODEL`, không ghi khóa API), nhiệt độ (`LAB_TEMPERATURE`), `recursion_limit`: `openai:gpt-4o-mini`, `LAB_TEMPERATURE=0`, `recursion_limit=60`
+- Phiên bản Deep Agents (`pip show deepagents`), hệ điều hành, chạy trực tiếp hay trong Docker: `deepagents 0.7.21`, Windows, chạy trực tiếp trong venv
+- Số lần chạy tác vụ đã dùng / ngân sách: 6 / 30
 - Commit của tag `freeze`:
 
 ## 2. Giả thuyết (commit TRƯỚC tag `freeze`, Phần 4.0)
 
 > Dự đoán điều kiện nào đạt điểm cao nhất trên **tác vụ đánh giá** và vì sao. Nêu căn cứ từ phân loại lỗi (mục 4) và từ tài liệu tham khảo. Điền cả ba dòng; `verify_freeze.py` kiểm tra điều này.
 
-- H1 (subagents so với baseline):
-- H2 (skills-auto so với baseline):
-- H3 (tác vụ học so với tác vụ đánh giá):
+- H1 (subagents so với baseline): subagents sẽ đạt điểm kỹ thuật (technical checks) cao hơn baseline trên tác vụ đánh giá (dự kiến tăng 15-30%), nhưng điểm quy ước tổ chức (house rules) không tăng đáng kể và chi phí token sẽ cao hơn khoảng 1.5x - 2.0x so với baseline. Căn cứ: subagent chuyên biệt hóa giúp kiểm tra chéo code và test tốt hơn, khắc phục lỗi nhóm A (bỏ qua đặc tả) và B (không kiểm chứng); tuy nhiên subagent không có thông tin về các quy ước Acme ẩn nếu prompt giao việc không truyền đạt, và luồng tương tác đa tác tử làm tăng đáng kể token overhead.
+- H2 (skills-auto so với baseline): skills-auto sẽ đạt điểm tổng thể cao nhất trên tác vụ đánh giá, đặc biệt vượt trội ở các check quy ước (house rules) so với baseline và subagents, đồng thời giữ chi phí token chỉ tăng nhẹ (~1.2x). Căn cứ: lỗi baseline chủ yếu là lỗi nhóm E (vi phạm quy ước Acme như tiền tệ dạng cents, khối meta trong JSON, clean.csv). Các kỹ năng tự tiến hóa trong skills/auto/ cung cấp quy trình chuẩn hóa và quy ước bắt buộc cho tác tử, giúp tác tử tuân thủ ngay từ đầu mà không cần thử-sai.
+- H3 (tác vụ học so với tác vụ đánh giá): Điểm trung bình của cả 3 điều kiện trên tác vụ đánh giá sẽ thấp hơn so với tác vụ học (mức giảm dự kiến 10-25%), trong đó khoảng cách điểm giữa skills-auto và baseline trên eval sẽ bị thu hẹp lại so với learn. Căn cứ: tác vụ đánh giá có dữ liệu mới và có thể chứa các quy ước nghiệp vụ mới chưa từng xuất hiện ở tác vụ học. Kỹ năng học được từ feedback của tác vụ học chỉ chuyển giao (transfer) được các quy tắc chung, không thể bao quát hoàn toàn các quy ước mới chưa xuất hiện.
 
 ## 3. Làm quen Deep Agents (Phần 0.3)
 
